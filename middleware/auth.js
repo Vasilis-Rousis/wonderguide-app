@@ -10,8 +10,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // List of public routes that do not require authentication
   const publicPaths = ["/login", "/sign-up"];
 
-  if (error) {
-    console.error("Authentication error:", error.message);
+  if (error) { 
     return navigateTo("/login");
   }
 
