@@ -1,33 +1,38 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
-    <h1 class="text-2xl font-bold text-gray-800 mb-4">Where to...</h1>
-    <div class="mb-4">
-      <label for="place" class="block text-gray-700 font-medium mb-2"
-        >Place to Visit:</label
-      >
-      <AutocompleteInput @placeSelected="setPlace" placeholder="Enter a city" />
-    </div>
-    <div class="mb-6">
-      <label for="days" class="block text-gray-700 font-medium mb-2"
-        >Number of Days:</label
-      >
-      <input
-        type="number"
-        id="days"
-        v-model="days"
-        placeholder="Enter days"
-        class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
-      />
-    </div>
-    <div class="flex items-center justify-between">
-      <button
-        @click="getTravelPlan"
-        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
-      >
-        Get Travel Plan
-      </button>
-      <div v-if="loading" class="loader"></div>
-      <p v-show="error" class="text-red-500 text-sm">{{ error }}</p>
+  <div class="max-w-full px-4 py-8">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Where to...</h1>
+      <div class="mb-4">
+        <label for="place" class="block text-gray-700 font-medium mb-2"
+          >Place to Visit:</label
+        >
+        <AutocompleteInput
+          @placeSelected="setPlace"
+          placeholder="Enter a city"
+        />
+      </div>
+      <div class="mb-6">
+        <label for="days" class="block text-gray-700 font-medium mb-2"
+          >Number of Days:</label
+        >
+        <input
+          type="number"
+          id="days"
+          v-model="days"
+          placeholder="Enter days"
+          class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+        />
+      </div>
+      <div class="flex items-center justify-between">
+        <button
+          @click="getTravelPlan"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+        >
+          Get Travel Plan
+        </button>
+        <div v-if="loading" class="loader"></div>
+        <p v-show="error" class="text-red-500 text-sm">{{ error }}</p>
+      </div>
     </div>
   </div>
 </template>

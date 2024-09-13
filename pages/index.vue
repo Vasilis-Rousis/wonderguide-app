@@ -1,14 +1,13 @@
 <template>
-  <div>
+  <div class="min-h-screen flex flex-col">
     <Navbar />
-    <div class="max-w-4xl mx-auto px-4 py-8">
-      <InputForm
-        @travelPlan="setTravelPlan"
-        @loading="setLoading"
-        @clearTravelPlan="clearTravelPlan"
-      />
-      <TravelPlanWrapper v-if="travelPlan" :plan="travelPlan" />
-    </div>
+    <InputForm
+      @travelPlan="setTravelPlan"
+      @loading="setLoading"
+      @clearTravelPlan="clearTravelPlan"
+    />
+    <TravelPlanWrapper class="flex-grow" v-if="travelPlan" :plan="travelPlan" />
+    <Footer />
   </div>
 </template>
 
@@ -17,9 +16,10 @@ import { ref } from "vue";
 import InputForm from "~/components/InputForm.vue";
 import TravelPlanWrapper from "~/components/TravelPlanWrapper.vue";
 import Navbar from "~/components/Navbar.vue";
+import Footer from "~/components/Footer.vue";
 
 definePageMeta({
-  middleware: ['auth']
+  middleware: ["auth"],
 });
 
 // Reactive state variables using the Composition API

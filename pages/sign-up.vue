@@ -85,11 +85,13 @@
       </p>
     </div>
   </div>
+  <Footer class="absolute bottom-0" />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Footer from "~/components/Footer.vue"
 
 // Reactive state
 const email = ref("");
