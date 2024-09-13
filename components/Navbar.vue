@@ -25,18 +25,18 @@
           </div>
           <div class="hidden sm:ml-6 sm:block">
             <div class="flex space-x-4">
-              <a
+              <NuxtLink
                 v-for="item in navigation"
                 :key="item.name"
-                :href="item.href"
+                :to="item.href"
                 :class="[
                   item.current
-                    ? 'bg-gray-900 text-white'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    ? 'bg-gray-900 text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out'
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out',
                   'rounded-md px-3 py-2 text-sm font-medium',
                 ]"
                 :aria-current="item.current ? 'page' : undefined"
-                >{{ item.name }}</a
+                >{{ item.name }}</NuxtLink
               >
             </div>
           </div>
@@ -80,34 +80,34 @@
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <NuxtLink
+                    to="/profile"
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Your Profile</a
+                    >Your Profile</NuxtLink
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <NuxtLink
+                    to="/settings"
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Settings</a
+                    >Settings</NuxtLink
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <NuxtLink
+                    to="/login"
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
                     @click="signOut"
-                    >Sign out</a
+                    >Sign out</NuxtLink
                   >
                 </MenuItem>
               </MenuItems>
@@ -122,8 +122,8 @@
         <DisclosureButton
           v-for="item in navigation"
           :key="item.name"
-          as="a"
-          :href="item.href"
+          as="NuxtLink"
+          :to="item.href"
           :class="[
             item.current
               ? 'bg-gray-900 text-white'
@@ -139,7 +139,7 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import {
   Disclosure,
   DisclosureButton,
@@ -152,13 +152,24 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 
 const router = useRouter();
+const route = useRoute(); // Get current route
 const supabase = useSupabaseClient();
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
+  { name: "Dashboard", href: "/", current: false },
+  { name: "My Trips", href: "/my-trips", current: true },
   { name: "Projects", href: "#", current: false },
   { name: "Calendar", href: "#", current: false },
 ];
+
+// Set `current` dynamically based on current route
+const updateNavigation = () => {
+  navigation.forEach((item) => {
+    item.current = item.href === route.path;
+  });
+};
+
+// Call this function when route changes
+updateNavigation();
 
 // Sign-out method
 const signOut = async () => {
@@ -167,7 +178,6 @@ const signOut = async () => {
     if (!error) {
       router.push("/login");
       console.log("After sign out", supabase.auth.getUser());
-      
     } else {
       console.error("Sign out error:", error);
     }

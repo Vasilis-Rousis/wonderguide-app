@@ -7,7 +7,7 @@
       @clearTravelPlan="clearTravelPlan"
       @showButtons="showFunctionalButtons"
     />
-    <TravelPlanWrapper class="flex-grow" v-if="travelPlan" :plan="travelPlan" />
+    <TravelPlanWrapper class="flex-grow" v-if="travelPlan" />
     <FunctionalButtonsContainer v-if="showButtons" />
     <Footer />
   </div>
@@ -20,6 +20,7 @@ import TravelPlanWrapper from "~/components/TravelPlanWrapper.vue";
 import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
 import FunctionalButtonsContainer from "~/components/FunctionalButtonsContainer.vue";
+import { useTravelPlanStore } from "~/stores/travelPlan";
 
 definePageMeta({
   middleware: ["auth"],
@@ -29,6 +30,8 @@ definePageMeta({
 const travelPlan = ref(null);
 const loading = ref(false);
 const showButtons = ref(false);
+const travelPlanStore = useTravelPlanStore();
+
 
 // Methods for handling travel plan and loading state
 const setTravelPlan = (plan) => {

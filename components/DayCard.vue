@@ -11,7 +11,6 @@
 </template>
 
 <script setup>
-
 // Define props using `defineProps`
 const props = defineProps({
   dayTitle: {

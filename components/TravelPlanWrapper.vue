@@ -14,14 +14,6 @@ import { computed } from "vue";
 import DayCard from "./DayCard.vue";
 import { useTravelPlanStore } from "~/stores/travelPlan";
 
-// Define props using `defineProps` in the Composition API
-const props = defineProps({
-  plan: {
-    type: Array,
-    required: true,
-  },
-});
-
 const travelPlanStore = useTravelPlanStore();
 
 // Use a computed property for parsing the plan
