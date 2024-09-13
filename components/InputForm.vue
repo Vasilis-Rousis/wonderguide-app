@@ -40,15 +40,27 @@
 <script setup>
 import { ref } from "vue";
 import AutocompleteInput from "./AutocompleteInput.vue";
+import { useTravelPlanStore } from "~/stores/travelPlan";
+import { useUserInput } from "~/stores/userFormInput";
 
 // Reactive state
 const place = ref("");
 const days = ref("");
 const loading = ref(false);
+const showButtons = ref(false)
 const error = ref(null);
 
+// Global store
+const travelPlanStore = useTravelPlanStore();
+const userInputStore = useUserInput();
+
 // Emit event to parent component
-const emit = defineEmits(["loading", "clearTravelPlan", "travelPlan"]);
+const emit = defineEmits([
+  "loading",
+  "clearTravelPlan",
+  "travelPlan",
+  "showButtons",
+]);
 
 // Function to set the place
 const setPlace = (selectedPlace) => {
@@ -65,6 +77,8 @@ const getTravelPlan = async () => {
 
   loading.value = true;
   emit("loading", true);
+  showButtons.value = false;
+  emit("showButtons", false);
   emit("clearTravelPlan");
 
   try {
@@ -76,6 +90,10 @@ const getTravelPlan = async () => {
       },
     });
 
+    // Store the plan globally
+    travelPlanStore.setTravelPlan(response.plan);
+    userInputStore.setUserInput({ place: place.value, days: days.value });
+
     emit("travelPlan", response.plan);
   } catch (e) {
     error.value = "Failed to fetch travel plan. Please try again.";
@@ -83,6 +101,8 @@ const getTravelPlan = async () => {
   } finally {
     loading.value = false;
     emit("loading", false);
+    showButtons.value = true;
+    emit("showButtons", true);
   }
 };
 </script>
