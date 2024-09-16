@@ -3,17 +3,15 @@
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
       <h1 class="text-2xl font-bold text-gray-800 mb-4">Where to...</h1>
       <div class="mb-4">
-        <label for="place" class="block text-gray-700 font-medium mb-2"
-          >Place to Visit:</label
-        >
-        <AutocompleteInput
-          v-model="userInputStore.place"
-        />
+        <label for="place" class="block text-gray-700 font-medium mb-2">
+          Place to Visit:
+        </label>
+        <AutocompleteInput v-model="userInputStore.place" />
       </div>
       <div class="mb-6">
-        <label for="days" class="block text-gray-700 font-medium mb-2"
-          >Number of Days:</label
-        >
+        <label for="days" class="block text-gray-700 font-medium mb-2">
+          Number of Days:
+        </label>
         <input
           type="number"
           id="days"
@@ -54,6 +52,7 @@ const emit = defineEmits([
   "loading",
   "clearTravelPlan",
   "travelPlan",
+  "showButtons",
 ]);
 
 // Function to get the travel plan
@@ -86,6 +85,7 @@ const getTravelPlan = async () => {
     });
 
     emit("travelPlan", response.plan);
+    emit("showButtons", true);
   } catch (e) {
     error.value = "Failed to fetch travel plan. Please try again.";
     console.error("Error getting travel plan:", e);

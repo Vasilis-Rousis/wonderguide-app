@@ -3,7 +3,8 @@
     <div class="flex justify-between gap-x-8">
       <button
         :class="{
-          'bg-blue-500 hover:bg-blue-700': !buttonsVisibilityStore.isButtonSaved,
+          'bg-blue-500 hover:bg-blue-700':
+            !buttonsVisibilityStore.isButtonSaved,
           'bg-green-500': buttonsVisibilityStore.isButtonSaved,
         }"
         :disabled="isSaving || buttonsVisibilityStore.isButtonSaved"
@@ -37,9 +38,12 @@ const travelPlanStore = useTravelPlanStore();
 const userInputStore = useUserInput();
 const buttonsVisibilityStore = useButtonsVisibilityStore();
 
-const isSaving = ref(false); // Track saving status
-const isGenerating = ref(false); // Track generating status
-const error = ref(null); // Store error messages
+// Emit event to parent component
+const emit = defineEmits(["loading"]);
+
+const isSaving = ref(false);
+const isGenerating = ref(false);
+const error = ref(null);
 
 const saveTrip = async () => {
   isSaving.value = true;
@@ -67,17 +71,18 @@ const saveTrip = async () => {
     buttonsVisibilityStore.setSaveButton(true);
   } catch (e) {
     console.error("Error saving trip:", e);
-    error.value = "Failed to save the trip. Please try again."; // Show error message
+    error.value = "Failed to save the trip. Please try again.";
   } finally {
-    isSaving.value = false; // Reset saving status
+    isSaving.value = false;
   }
 };
 
 // Function to get the travel plan
 const getTravelPlan = async () => {
-  error.value = null; // Reset error message
+  error.value = null;
 
   isGenerating.value = true;
+  emit("loading", true); // Emit loading event
 
   try {
     const response = await $fetch("/api/getTravelPlan", {
@@ -101,6 +106,7 @@ const getTravelPlan = async () => {
     isGenerating.value = false;
     isSaving.value = false;
     buttonsVisibilityStore.setSaveButton(false);
+    emit("loading", false); // Emit loading event
   }
 };
 </script>

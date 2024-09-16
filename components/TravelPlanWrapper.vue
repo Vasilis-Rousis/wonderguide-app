@@ -1,20 +1,58 @@
 <template>
-  <div class="bg-rose-200 p-6 rounded-lg shadow-lg max-w-4xl mx-auto mb-8">
-    <DayCard
-      v-for="(day, index) in parsedPlan"
-      :key="index"
-      :dayTitle="day.dayTitle"
-      :activities="day.activities"
-    />
+  <div class="flex justify-center">
+    <div class="bg-rose-200 p-6 rounded-lg shadow-lg max-w-4xl w-full mb-8">
+      <!-- Transition between loading skeletons and content -->
+      <transition name="fade" mode="out-in">
+        <!-- Use a key to help Vue identify the elements -->
+        <div :key="loading ? 'loading' : 'loaded'">
+          <!-- Show skeleton loaders when loading -->
+          <template v-if="loading">
+            <div
+              v-for="n in userInputStore.days"
+              :key="n"
+              class="bg-white p-5 rounded-lg shadow-md animate-pulse mb-4"
+            >
+              <div class="h-7 bg-gray-200 rounded w-16 mb-3"></div>
+              <div class="h-6 bg-gray-200 rounded w-24 mb-2"></div>
+              <div class="h-5 bg-gray-200 rounded w-full mb-2"></div>
+              <div class="h-5 bg-gray-200 rounded w-1/2 mb-2"></div>
+              <div class="h-6 bg-gray-200 rounded w-24 mb-2"></div>
+              <div class="h-5 bg-gray-200 rounded w-full mb-2"></div>
+              <div class="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
+              <div class="h-6 bg-gray-200 rounded w-24 mb-2"></div>
+              <div class="h-5 bg-gray-200 rounded w-full mb-2"></div>
+              <div class="h-5 bg-gray-200 rounded w-1/2 mb-2"></div>
+            </div>
+          </template>
+
+          <!-- Show day cards when data is loaded -->
+          <template v-else>
+            <DayCard
+              v-for="(day, index) in parsedPlan"
+              :key="index"
+              :dayTitle="day.dayTitle"
+              :activities="day.activities"
+            />
+          </template>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
 import DayCard from "./DayCard.vue";
-import { useTravelPlanStore } from "~/stores/travelPlan";
+
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    required: true,
+  },
+});
 
 const travelPlanStore = useTravelPlanStore();
+const userInputStore = useUserInput();
 
 // Use a computed property for parsing the plan
 const parsedPlan = computed(() => {
@@ -36,3 +74,19 @@ const parsedPlan = computed(() => {
   return parsed;
 });
 </script>
+
+<style scoped>
+/* Fade transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+</style>

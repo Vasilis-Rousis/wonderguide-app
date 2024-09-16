@@ -7,8 +7,17 @@
       @clearTravelPlan="clearTravelPlan"
       @showButtons="showFunctionalButtons"
     />
-    <TravelPlanWrapper class="flex-grow" v-if="isTravelPlan" />
-    <FunctionalButtonsContainer v-if="buttonsVisibilityStore.buttonVisibility" />
+    <!-- Modify the condition to render TravelPlanWrapper when loading or when travel plan is available -->
+    <TravelPlanWrapper
+      class="flex-grow"
+      v-if="loading || isTravelPlan"
+      :loading="loading"
+    />
+    <!-- Listen for loading events from FunctionalButtonsContainer -->
+    <FunctionalButtonsContainer
+      v-if="buttonsVisibilityStore.buttonVisibility"
+      @loading="setLoading"
+    />
     <Footer />
   </div>
 </template>
@@ -19,12 +28,12 @@ import InputForm from "~/components/InputForm.vue";
 import TravelPlanWrapper from "~/components/TravelPlanWrapper.vue";
 import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
+import FunctionalButtonsContainer from "~/components/FunctionalButtonsContainer.vue";
 
 definePageMeta({
   middleware: ["auth"],
 });
 
-// Reactive state variables using the Composition API
 const travelPlan = ref(null);
 const loading = ref(false);
 const showButtons = ref(false);

@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white p-5 rounded-lg shadow-lg mb-4">
+  <div class="bg-white p-4 rounded-lg shadow-lg mb-4">
     <h3 class="text-xl font-semibold text-gray-800 mb-3">{{ dayTitle }}</h3>
-    <div v-for="(activity, index) in activities" :key="index">
+    <div v-for="(activity, index) in activities" :key="index" class="mb-2">
       <h4 v-if="isHeader(activity)" class="text-lg font-medium text-gray-700">
         {{ activity }}
       </h4>
