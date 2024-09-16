@@ -7,7 +7,7 @@
           >Place to Visit:</label
         >
         <AutocompleteInput
-          @placeSelected="setPlace"
+          v-model="userInputStore.place"
         />
       </div>
       <div class="mb-6">
@@ -40,16 +40,14 @@
 import { ref } from "vue";
 import AutocompleteInput from "./AutocompleteInput.vue";
 
-// Reactive state
-const place = ref("");
-const days = ref("");
-const loading = ref(false);
-const error = ref(null);
-
 // Global store
 const travelPlanStore = useTravelPlanStore();
 const userInputStore = useUserInput();
 const buttonsVisibilityStore = useButtonsVisibilityStore();
+
+// Reactive state
+const loading = ref(false);
+const error = ref(null);
 
 // Emit event to parent component
 const emit = defineEmits([
@@ -57,11 +55,6 @@ const emit = defineEmits([
   "clearTravelPlan",
   "travelPlan",
 ]);
-
-// Function to set the place
-const setPlace = (selectedPlace) => {
-  userInputStore.place = selectedPlace ? selectedPlace.name : "";
-};
 
 // Function to get the travel plan
 const getTravelPlan = async () => {
@@ -87,7 +80,10 @@ const getTravelPlan = async () => {
 
     // Store the plan globally
     travelPlanStore.setTravelPlan(response.plan);
-    userInputStore.setUserInput({ place: userInputStore.place, days: userInputStore.days });
+    userInputStore.setUserInput({
+      place: userInputStore.place,
+      days: userInputStore.days,
+    });
 
     emit("travelPlan", response.plan);
   } catch (e) {

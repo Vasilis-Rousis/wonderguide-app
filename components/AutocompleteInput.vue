@@ -4,6 +4,7 @@
       type="text"
       ref="autocompleteInput"
       :placeholder="placeholder"
+      :value="modelValue"
       @input="onInput"
       class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
     />
@@ -11,22 +12,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useHead } from "@vueuse/head";
 import { useRuntimeConfig } from "#app";
 
 const props = defineProps({
+  modelValue: {
+    type: String,
+    default: "",
+  },
   placeholder: {
     type: String,
     default: "Enter a place",
   },
 });
 
+const emit = defineEmits(["update:modelValue", "placeSelected"]);
+
 const autocompleteInput = ref(null);
 let autocomplete;
-
-// Define emits
-const emit = defineEmits(["placeSelected"]);
 
 const config = useRuntimeConfig();
 
@@ -41,7 +45,6 @@ useHead({
 });
 
 onMounted(() => {
-  // Ensure the Google script is loaded before initializing
   if (!window.google || !window.google.maps) {
     const checkGoogleMaps = setInterval(() => {
       if (window.google && window.google.maps) {
@@ -55,7 +58,10 @@ onMounted(() => {
 });
 
 function initAutocomplete() {
-  const options = { types: ["(cities)"] }; // Restrict suggestions to cities
+  const options = {
+    types: ["(cities)"],
+    fields: ["address_components", "formatted_address", "geometry", "name"],
+  };
   autocomplete = new google.maps.places.Autocomplete(
     autocompleteInput.value,
     options
@@ -66,13 +72,26 @@ function initAutocomplete() {
 function onPlaceChanged() {
   const place = autocomplete.getPlace();
   if (place.geometry) {
-    emit("placeSelected", place); // Emit the selected place to the parent
+    emit("update:modelValue", place.formatted_address || place.name);
+    emit("placeSelected", place);
   }
 }
 
 function onInput(event) {
-  if (!event.target.value) {
-    emit("placeSelected", null); // Emit null when input is cleared
+  const value = event.target.value;
+  emit("update:modelValue", value);
+  if (!value) {
+    emit("placeSelected", null);
   }
 }
+
+// Keep the input value in sync when modelValue changes from outside
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (autocompleteInput.value && autocompleteInput.value.value !== newVal) {
+      autocompleteInput.value.value = newVal;
+    }
+  }
+);
 </script>
