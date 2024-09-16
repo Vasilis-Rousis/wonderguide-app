@@ -1,11 +1,8 @@
 <template>
-  <div class="bg-rose-200 p-6 rounded-lg shadow-lg max-w-4xl mx-auto mb-8">
-    <TripCard
-      v-for="(trip, index) in travelPlan"
-      :key="index"
-      :place="trip.place"
-      :days="trip.days"
-    />
+  <div class="max-w-4xl mx-auto mb-8">
+    <div class="space-y-4">
+      <TripCard v-for="(trip, index) in travelPlan" :key="index" :trip="trip" />
+    </div>
   </div>
 </template>
 
@@ -15,24 +12,24 @@ import TripCard from "./TripCard.vue";
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
-const travelPlan = ref(null);
+const travelPlan = ref([]);
 
 const getUserTrips = async () => {
   try {
     const { data, error: saveError } = await supabase
       .from("trips")
-      .select("trip, place, days")
+      .select("*")
       .eq("email", user.value.email);
 
     if (saveError) {
-      throw saveError; // Trigger catch block if there's an error
+      throw saveError;
     } else {
       travelPlan.value = data;
-      console.log("DATAAAAA", data);
+      console.log("DATA:", data);
     }
   } catch (e) {
     console.error("Error getting trips", e);
-    error.value = "Failed to fetch the trips. Please try again."; // Show error message
+    // Handle error accordingly
   }
 };
 
