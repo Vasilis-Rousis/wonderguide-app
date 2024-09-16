@@ -1,0 +1,4 @@
+/* Reserve space for the scrollbar */
+html {
+  overflow-y: scroll;
+}

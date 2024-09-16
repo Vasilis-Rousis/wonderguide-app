@@ -1,23 +1,25 @@
 <template>
   <div class="bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center">
-      <h3 class="font-semibold text-gray-800">Your trip to {{ trip.place }}</h3>
-      <div class="flex items-center">
+      <div class="flex flex-col justify-between gap-4">
+        <h3 class="font-semibold text-gray-800">
+          Your trip to {{ trip.place }}
+        </h3>
         <p class="text-gray-600 mr-4">Duration: {{ trip.days }} days</p>
-        <button
-          @click="toggleCollapse"
-          class="text-blue-500 hover:text-blue-700 focus:outline-none"
-        >
-          <ChevronDownIcon
-            class="w-6 h-6 transform transition-transform duration-300"
-            :class="{ 'rotate-180': !isCollapsed }"
-          />
-        </button>
       </div>
+      <button
+        @click="toggleCollapse"
+        class="text-blue-500 hover:text-blue-700 focus:outline-none"
+      >
+        <ChevronDownIcon
+          class="w-6 h-6 transform transition-transform duration-300"
+          :class="{ 'rotate-180': !isCollapsed }"
+        />
+      </button>
     </div>
     <!-- Content reveal transition -->
-    <transition name="fade">
-      <div v-if="!isCollapsed" class="mt-4">
+    <transition name="expand">
+      <div v-if="!isCollapsed" class="mt-4 overflow-hidden">
         <p class="text-gray-600 whitespace-pre-line">{{ trip.trip }}</p>
       </div>
     </transition>
@@ -43,17 +45,22 @@ const toggleCollapse = () => {
 </script>
 
 <style scoped>
-/* Content fade transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+/* Expand/collapse transition */
+.expand-enter-active,
+.expand-leave-active {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
 }
-.fade-enter-from,
-.fade-leave-to {
+
+.expand-enter-from,
+.expand-leave-to {
+  max-height: 0;
   opacity: 0;
 }
-.fade-enter-to,
-.fade-leave-from {
+
+.expand-enter-to,
+.expand-leave-from {
+  max-height: 500px; /* Adjust to a value that fits your content */
   opacity: 1;
 }
 </style>

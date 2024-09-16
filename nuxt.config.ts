@@ -21,5 +21,6 @@ export default defineNuxtConfig({
       secure: true,
     },
   },
+  css: ["~/assets/css/main.css"],
   compatibilityDate: "2024-09-10",
 });
