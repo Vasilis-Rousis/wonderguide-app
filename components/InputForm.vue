@@ -8,7 +8,6 @@
         >
         <AutocompleteInput
           @placeSelected="setPlace"
-          placeholder="Enter a city"
         />
       </div>
       <div class="mb-6">
@@ -18,7 +17,7 @@
         <input
           type="number"
           id="days"
-          v-model="days"
+          v-model="userInputStore.days"
           placeholder="Enter days"
           class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
         />
@@ -61,13 +60,13 @@ const emit = defineEmits([
 
 // Function to set the place
 const setPlace = (selectedPlace) => {
-  place.value = selectedPlace ? selectedPlace.name : "";
+  userInputStore.place = selectedPlace ? selectedPlace.name : "";
 };
 
 // Function to get the travel plan
 const getTravelPlan = async () => {
   error.value = null; // Reset error message
-  if (!place.value || !days.value) {
+  if (!userInputStore.place || !userInputStore.days) {
     error.value = "Please fill in all fields";
     return;
   }
@@ -81,14 +80,14 @@ const getTravelPlan = async () => {
     const response = await $fetch("/api/getTravelPlan", {
       method: "POST",
       body: {
-        place: place.value,
-        days: days.value,
+        place: userInputStore.place,
+        days: userInputStore.days,
       },
     });
 
     // Store the plan globally
     travelPlanStore.setTravelPlan(response.plan);
-    userInputStore.setUserInput({ place: place.value, days: days.value });
+    userInputStore.setUserInput({ place: userInputStore.place, days: userInputStore.days });
 
     emit("travelPlan", response.plan);
   } catch (e) {
