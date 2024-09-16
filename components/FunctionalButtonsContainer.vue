@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center w-full mb-6">
+  <div class="flex justify-center w-full mb-4">
     <div class="flex flex-wrap justify-center gap-6">
       <button
         :class="{

@@ -1,23 +1,19 @@
 <template>
   <div class="flex flex-col gap-12 bg-gray-50">
     <Navbar />
-    <InputForm
-      @travelPlan="setTravelPlan"
-      @loading="setLoading"
-      @clearTravelPlan="clearTravelPlan"
-      @showButtons="showFunctionalButtons"
-    />
-    <!-- Modify the condition to render TravelPlanWrapper when loading or when travel plan is available -->
-    <TravelPlanWrapper
-      class="flex-grow"
-      v-if="loading || isTravelPlan"
-      :loading="loading"
-    />
-    <!-- Listen for loading events from FunctionalButtonsContainer -->
-    <FunctionalButtonsContainer
-      v-if="buttonsVisibilityStore.buttonVisibility"
-      @loading="setLoading"
-    />
+    <div class="flex flex-col gap-12 flex-grow pt-28">
+      <InputForm
+        @travelPlan="setTravelPlan"
+        @loading="setLoading"
+        @clearTravelPlan="clearTravelPlan"
+        @showButtons="showFunctionalButtons"
+      />
+      <TravelPlanWrapper v-if="loading || isTravelPlan" :loading="loading" />
+      <FunctionalButtonsContainer
+        v-if="buttonsVisibilityStore.buttonVisibility"
+        @loading="setLoading"
+      />
+    </div>
     <Footer />
   </div>
 </template>

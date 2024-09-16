@@ -1,69 +1,64 @@
 <template>
-  <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
-    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-      <div class="relative flex h-16 items-center justify-between">
-        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-          <!-- Mobile menu button-->
-          <DisclosureButton
-            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-          >
-            <span class="absolute -inset-0.5" />
-            <span class="sr-only">Open main menu</span>
-            <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
-            <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
-          </DisclosureButton>
-        </div>
-        <div
-          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
-        >
-          <div class="flex flex-shrink-0 items-center">
+  <Disclosure
+    as="nav"
+    class="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg fixed w-full z-50 shadow-sm"
+    v-slot="{ open }"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <!-- Left section: Logo -->
+        <div class="flex items-center">
+          <NuxtLink to="/">
             <img
               class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+              src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
               alt="Your Company"
             />
-          </div>
-          <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
-              <NuxtLink
-                v-for="item in navigation"
-                :key="item.name"
-                :to="item.href"
-                :class="[
-                  item.current
-                    ? 'bg-gray-900 text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out'
-                    : 'text-gray-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:shadow-outline transition duration-150 ease-in-out',
-                  'rounded-md px-3 py-2 text-sm font-medium',
-                ]"
-                :aria-current="item.current ? 'page' : undefined"
-                >{{ item.name }}</NuxtLink
-              >
-            </div>
-          </div>
+          </NuxtLink>
         </div>
-        <div
-          class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
-        >
-          <button
-            type="button"
-            class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+        <!-- Center section: Navigation Links -->
+        <div class="hidden sm:flex sm:space-x-8">
+          <NuxtLink
+            v-for="item in navigation"
+            :key="item.name"
+            :to="item.href"
+            :class="[
+              item.current
+                ? 'border-blue-600 text-gray-900'
+                : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+              'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out',
+            ]"
+            :aria-current="item.current ? 'page' : undefined"
           >
-            <span class="absolute -inset-1.5" />
-            <span class="sr-only">View notifications</span>
-            <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
-
-          <!-- Profile dropdown -->
-          <Menu as="div" class="relative ml-3">
+            {{ item.name }}
+          </NuxtLink>
+        </div>
+        <!-- Right section: Profile dropdown -->
+        <div class="flex items-center">
+          <!-- Mobile menu button -->
+          <div class="sm:hidden">
+            <DisclosureButton
+              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+            >
+              <span class="sr-only">Open main menu</span>
+              <Bars3Icon
+                v-if="!open"
+                class="block h-6 w-6"
+                aria-hidden="true"
+              />
+              <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
+            </DisclosureButton>
+          </div>
+          <!-- Desktop profile dropdown -->
+          <Menu as="div" class="ml-4 relative">
             <div>
               <MenuButton
-                class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
-                <span class="absolute -inset-1.5" />
                 <span class="sr-only">Open user menu</span>
                 <img
                   class="h-8 w-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  src="https://images.unsplash.com/photo-1603415526960-f0b7d3eeed1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80"
                   alt=""
                 />
               </MenuButton>
@@ -77,7 +72,7 @@
               leave-to-class="transform opacity-0 scale-95"
             >
               <MenuItems
-                class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
               >
                 <MenuItem v-slot="{ active }">
                   <NuxtLink
@@ -86,8 +81,9 @@
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Your Profile</NuxtLink
                   >
+                    Your Profile
+                  </NuxtLink>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <NuxtLink
@@ -96,18 +92,20 @@
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Settings</NuxtLink
                   >
+                    Settings
+                  </NuxtLink>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <a
+                    @click="signOut"
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
+                      'block px-4 py-2 text-sm text-gray-700 cursor-pointer',
                     ]"
-                    @click="signOut"
-                    >Sign out</a
                   >
+                    Sign out
+                  </a>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -116,22 +114,23 @@
       </div>
     </div>
 
+    <!-- Mobile menu -->
     <DisclosurePanel class="sm:hidden">
-      <div class="space-y-1 px-2 pb-3 pt-2">
-        <DisclosureButton
+      <div class="pt-2 pb-3 space-y-1">
+        <NuxtLink
           v-for="item in navigation"
           :key="item.name"
-          as="NuxtLink"
           :to="item.href"
           :class="[
             item.current
-              ? 'bg-gray-900 text-white'
-              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-            'block rounded-md px-3 py-2 text-base font-medium',
+              ? 'bg-blue-50 border-blue-500 text-blue-700'
+              : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+            'block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition duration-150 ease-in-out',
           ]"
           :aria-current="item.current ? 'page' : undefined"
-          >{{ item.name }}</DisclosureButton
         >
+          {{ item.name }}
+        </NuxtLink>
       </div>
     </DisclosurePanel>
   </Disclosure>
@@ -148,27 +147,25 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/vue";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/vue/24/outline";
+
+// No need to import NuxtLink; it's globally available in Nuxt.js
 
 const router = useRouter();
-const route = useRoute(); // Get current route
+const route = useRoute();
 const supabase = useSupabaseClient();
+
 const navigation = [
   { name: "Dashboard", href: "/", current: false },
-  { name: "My Trips", href: "/my-trips", current: true },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "My Trips", href: "/my-trips", current: false },
+  { name: "Projects", href: "/projects", current: false },
+  { name: "Calendar", href: "/calendar", current: false },
 ];
 
-// Set `current` dynamically based on current route
-const updateNavigation = () => {
-  navigation.forEach((item) => {
-    item.current = item.href === route.path;
-  });
-};
-
-// Call this function when route changes
-updateNavigation();
+// Update navigation items based on current route
+navigation.forEach((item) => {
+  item.current = item.href === route.path;
+});
 
 // Sign-out method
 const signOut = async () => {
@@ -176,7 +173,6 @@ const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
       router.push("/login");
-      console.log("After sign out", supabase.auth.getUser());
     } else {
       console.error("Sign out error:", error);
     }
