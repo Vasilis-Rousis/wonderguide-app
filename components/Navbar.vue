@@ -100,14 +100,13 @@
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <NuxtLink
-                    to="/login"
+                  <a
                     :class="[
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
                     @click="signOut"
-                    >Sign out</NuxtLink
+                    >Sign out</a
                   >
                 </MenuItem>
               </MenuItems>

@@ -7,14 +7,14 @@
       @clearTravelPlan="clearTravelPlan"
       @showButtons="showFunctionalButtons"
     />
-    <TravelPlanWrapper class="flex-grow" v-if="travelPlan" />
+    <TravelPlanWrapper class="flex-grow" v-if="isTravelPlan" />
     <FunctionalButtonsContainer v-if="showButtons" />
     <Footer />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import InputForm from "~/components/InputForm.vue";
 import TravelPlanWrapper from "~/components/TravelPlanWrapper.vue";
 import Navbar from "~/components/Navbar.vue";
@@ -31,7 +31,7 @@ const travelPlan = ref(null);
 const loading = ref(false);
 const showButtons = ref(false);
 const travelPlanStore = useTravelPlanStore();
-
+const isTravelPlan = computed(() => travelPlanStore.plan !== null);
 
 // Methods for handling travel plan and loading state
 const setTravelPlan = (plan) => {
