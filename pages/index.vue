@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="flex flex-col gap-12 bg-gray-50">
     <Navbar />
     <InputForm
       @travelPlan="setTravelPlan"

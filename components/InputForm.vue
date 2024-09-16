@@ -1,34 +1,43 @@
 <template>
-  <div class="max-w-full px-4 py-8">
-    <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">Where to...</h1>
-      <div class="mb-4">
-        <label for="place" class="block text-gray-700 font-medium mb-2">
-          Place to Visit:
-        </label>
-        <AutocompleteInput v-model="userInputStore.place" />
-      </div>
-      <div class="mb-6">
-        <label for="days" class="block text-gray-700 font-medium mb-2">
-          Number of Days:
-        </label>
-        <input
-          type="number"
-          id="days"
-          v-model="userInputStore.days"
-          placeholder="Enter days"
-          class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
-        />
-      </div>
-      <div class="flex items-center justify-between">
+  <div class="flex items-center justify-center bg-gray-50">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md mx-auto">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
+        Plan Your Trip
+      </h1>
+      <div class="space-y-6">
+        <div>
+          <label
+            for="place"
+            class="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Place to Visit
+          </label>
+          <AutocompleteInput v-model="userInputStore.place" class="w-full" />
+        </div>
+        <div>
+          <label
+            for="days"
+            class="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Number of Days
+          </label>
+          <input
+            type="number"
+            id="days"
+            v-model="userInputStore.days"
+            placeholder="Enter number of days"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
         <button
           @click="getTravelPlan"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
         >
           Get Travel Plan
         </button>
-        <div v-if="loading" class="loader"></div>
-        <p v-show="error" class="text-red-500 text-sm">{{ error }}</p>
+        <p v-if="error" class="text-red-500 text-center text-sm mt-2">
+          {{ error }}
+        </p>
       </div>
     </div>
   </div>
@@ -96,37 +105,3 @@ const getTravelPlan = async () => {
   }
 };
 </script>
-
-<style scoped>
-.loader {
-  width: 40px;
-  aspect-ratio: 2;
-  --circle1: no-repeat radial-gradient(circle closest-side, #42b883 90%, #0000);
-  --circle2: no-repeat radial-gradient(circle closest-side, #ff6f61 90%, #0000);
-  --circle3: no-repeat radial-gradient(circle closest-side, #f39c12 90%, #0000);
-  background: var(--circle1) 0% 50%, var(--circle2) 50% 50%,
-    var(--circle3) 100% 50%;
-  background-size: calc(100% / 3) 50%;
-  animation: l3 0.7s infinite linear;
-}
-@keyframes l3 {
-  20% {
-    background-position: 0% 0%, 50% 50%, 100% 50%;
-  }
-  40% {
-    background-position: 0% 100%, 50% 0%, 100% 50%;
-  }
-  60% {
-    background-position: 0% 50%, 50% 100%, 100% 0%;
-  }
-  80% {
-    background-position: 0% 50%, 50% 50%, 100% 100%;
-  }
-}
-.button-loader {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5em;
-}
-</style>

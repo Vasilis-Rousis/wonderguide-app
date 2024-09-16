@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center">
-    <div class="bg-rose-200 p-6 rounded-lg shadow-lg max-w-4xl w-full mb-8">
+    <div class="w-full max-w-4xl">
       <!-- Transition between loading skeletons and content -->
       <transition name="fade" mode="out-in">
         <!-- Use a key to help Vue identify the elements -->
@@ -12,16 +12,16 @@
               :key="n"
               class="bg-white p-5 rounded-lg shadow-md animate-pulse mb-4"
             >
-              <div class="h-7 bg-gray-200 rounded w-16 mb-3"></div>
-              <div class="h-6 bg-gray-200 rounded w-24 mb-2"></div>
-              <div class="h-5 bg-gray-200 rounded w-full mb-2"></div>
-              <div class="h-5 bg-gray-200 rounded w-1/2 mb-2"></div>
-              <div class="h-6 bg-gray-200 rounded w-24 mb-2"></div>
-              <div class="h-5 bg-gray-200 rounded w-full mb-2"></div>
-              <div class="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
-              <div class="h-6 bg-gray-200 rounded w-24 mb-2"></div>
-              <div class="h-5 bg-gray-200 rounded w-full mb-2"></div>
-              <div class="h-5 bg-gray-200 rounded w-1/2 mb-2"></div>
+              <div class="h-7 bg-gray-200 rounded w-16 mb-4"></div>
+              <div class="h-6 bg-gray-200 rounded w-24 mb-3"></div>
+              <div class="h-5 bg-gray-200 rounded w-full mb-3"></div>
+              <div class="h-5 bg-gray-200 rounded w-1/2 mb-3"></div>
+              <div class="h-6 bg-gray-200 rounded w-24 mb-3"></div>
+              <div class="h-5 bg-gray-200 rounded w-full mb-3"></div>
+              <div class="h-5 bg-gray-200 rounded w-3/4 mb-3"></div>
+              <div class="h-6 bg-gray-200 rounded w-24 mb-3"></div>
+              <div class="h-5 bg-gray-200 rounded w-full mb-3"></div>
+              <div class="h-5 bg-gray-200 rounded w-1/2 mb-3"></div>
             </div>
           </template>
 
@@ -79,7 +79,7 @@ const parsedPlan = computed(() => {
 /* Fade transition */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s ease;
 }
 .fade-enter-from,
 .fade-leave-to {

@@ -1,31 +1,31 @@
 <template>
-  <div class="flex justify-center w-full mb-8">
-    <div class="flex justify-between gap-x-8">
+  <div class="flex justify-center w-full mb-6">
+    <div class="flex flex-wrap justify-center gap-6">
       <button
         :class="{
-          'bg-blue-500 hover:bg-blue-700':
+          'bg-blue-600 hover:bg-blue-700':
             !buttonsVisibilityStore.isButtonSaved,
-          'bg-green-500': buttonsVisibilityStore.isButtonSaved,
+          'bg-green-600': buttonsVisibilityStore.isButtonSaved,
         }"
         :disabled="isSaving || buttonsVisibilityStore.isButtonSaved"
-        class="text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+        class="text-white font-semibold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
         @click="saveTrip"
       >
         <span class="transition duration-150 ease-in-out">
-          {{ buttonsVisibilityStore.isButtonSaved ? "Saved!" : "Save trip" }}
+          {{ buttonsVisibilityStore.isButtonSaved ? "Saved!" : "Save Trip" }}
         </span>
       </button>
       <button
         :disabled="isGenerating"
-        class="bg-white hover:bg-gray-100 text-blue-500 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
+        class="bg-white border border-blue-600 hover:bg-blue-50 text-blue-600 font-semibold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
         @click="getTravelPlan"
       >
         <span class="transition duration-150 ease-in-out">
-          {{ isGenerating ? "Generating..." : "Generate" }}
+          {{ isGenerating ? "Generating..." : "Generate Again" }}
         </span>
       </button>
-      <p v-if="error" class="text-red-500">{{ error }}</p>
     </div>
+    <p v-if="error" class="text-red-500 text-center mt-4">{{ error }}</p>
   </div>
 </template>
 

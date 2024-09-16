@@ -1,11 +1,14 @@
 <template>
-  <div class="bg-white p-4 rounded-lg shadow-lg mb-4">
-    <h3 class="text-xl font-semibold text-gray-800 mb-3">{{ dayTitle }}</h3>
-    <div v-for="(activity, index) in activities" :key="index" class="mb-2">
-      <h4 v-if="isHeader(activity)" class="text-lg font-medium text-gray-700">
+  <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h3 class="text-2xl font-semibold text-gray-800 mb-4">{{ dayTitle }}</h3>
+    <div v-for="(activity, index) in activities" :key="index">
+      <h4
+        v-if="isHeader(activity)"
+        class="text-xl font-medium text-gray-700 mb-3"
+      >
         {{ activity }}
       </h4>
-      <p v-else class="text-gray-600 mt-1">{{ activity }}</p>
+      <p v-else class="text-gray-600 mb-2">{{ activity }}</p>
     </div>
   </div>
 </template>
