@@ -3,15 +3,15 @@
     <div class="flex justify-between gap-x-8">
       <button
         :class="{
-          'bg-blue-500 hover:bg-blue-700': !isSaved,
-          'bg-green-500': isSaved,
+          'bg-blue-500 hover:bg-blue-700': !buttonsVisibilityStore.isButtonSaved,
+          'bg-green-500': buttonsVisibilityStore.isButtonSaved,
         }"
-        :disabled="isSaving || isSaved"
+        :disabled="isSaving || buttonsVisibilityStore.isButtonSaved"
         class="text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-150 ease-in-out"
         @click="saveTrip"
       >
         <span class="transition duration-150 ease-in-out">
-          {{ isSaved ? "Saved!" : "Save trip" }}
+          {{ buttonsVisibilityStore.isButtonSaved ? "Saved!" : "Save trip" }}
         </span>
       </button>
       <button
@@ -30,23 +30,21 @@
 
 <script setup>
 import { ref } from "vue";
-import { useTravelPlanStore } from "~/stores/travelPlan";
-import { useUserInput } from "~/stores/userFormInput";
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 const travelPlanStore = useTravelPlanStore();
 const userInputStore = useUserInput();
+const buttonsVisibilityStore = useButtonsVisibilityStore();
 
 const isSaving = ref(false); // Track saving status
-const isSaved = ref(false); // Track if save was successful
 const isGenerating = ref(false); // Track generating status
 const error = ref(null); // Store error messages
 
 const saveTrip = async () => {
   isSaving.value = true;
   error.value = null;
-  isSaved.value = false;
+  buttonsVisibilityStore.setSaveButton(false);
 
   try {
     const { data, error: saveError } = await supabase
@@ -66,7 +64,7 @@ const saveTrip = async () => {
       throw saveError; // Trigger catch block if there's an error
     }
 
-    isSaved.value = true; // Mark as saved if no error
+    buttonsVisibilityStore.setSaveButton(true);
   } catch (e) {
     console.error("Error saving trip:", e);
     error.value = "Failed to save the trip. Please try again."; // Show error message
@@ -101,6 +99,8 @@ const getTravelPlan = async () => {
     console.error("Error getting travel plan:", e);
   } finally {
     isGenerating.value = false;
+    isSaving.value = false;
+    buttonsVisibilityStore.setSaveButton(false);
   }
 };
 </script>

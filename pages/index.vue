@@ -8,7 +8,7 @@
       @showButtons="showFunctionalButtons"
     />
     <TravelPlanWrapper class="flex-grow" v-if="isTravelPlan" />
-    <FunctionalButtonsContainer v-if="showButtons" />
+    <FunctionalButtonsContainer v-if="buttonsVisibilityStore.buttonVisibility" />
     <Footer />
   </div>
 </template>
@@ -19,8 +19,6 @@ import InputForm from "~/components/InputForm.vue";
 import TravelPlanWrapper from "~/components/TravelPlanWrapper.vue";
 import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
-import FunctionalButtonsContainer from "~/components/FunctionalButtonsContainer.vue";
-import { useTravelPlanStore } from "~/stores/travelPlan";
 
 definePageMeta({
   middleware: ["auth"],
@@ -31,6 +29,7 @@ const travelPlan = ref(null);
 const loading = ref(false);
 const showButtons = ref(false);
 const travelPlanStore = useTravelPlanStore();
+const buttonsVisibilityStore = useButtonsVisibilityStore();
 const isTravelPlan = computed(() => travelPlanStore.plan !== null);
 
 // Methods for handling travel plan and loading state
@@ -44,6 +43,7 @@ const setLoading = (isLoading) => {
 
 const clearTravelPlan = () => {
   travelPlan.value = null;
+  buttonsVisibilityStore.showButtons(false);
 };
 
 const showFunctionalButtons = (isShowing) => {
