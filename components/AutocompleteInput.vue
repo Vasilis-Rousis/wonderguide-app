@@ -12,76 +12,60 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useHead } from "@vueuse/head";
-import { useRuntimeConfig } from "#app";
+import { ref, onMounted, watch } from 'vue';
 
 const props = defineProps({
   modelValue: {
     type: String,
-    default: "",
+    default: '',
   },
   placeholder: {
     type: String,
-    default: "Enter a place",
+    default: 'Enter a place',
   },
 });
 
-const emit = defineEmits(["update:modelValue", "placeSelected"]);
+const emit = defineEmits(['update:modelValue', 'placeSelected']);
 
 const autocompleteInput = ref(null);
 let autocomplete;
 
-const config = useRuntimeConfig();
+const { $loadGoogleMaps } = useNuxtApp();
 
-useHead({
-  script: [
-    {
-      src: `https://maps.googleapis.com/maps/api/js?key=${config.public.GOOGLE_MAPS_API_KEY}&libraries=places`,
-      async: true,
-      defer: true,
-    },
-  ],
-});
-
-onMounted(() => {
-  if (!window.google || !window.google.maps) {
-    const checkGoogleMaps = setInterval(() => {
-      if (window.google && window.google.maps) {
-        clearInterval(checkGoogleMaps);
-        initAutocomplete();
-      }
-    }, 100);
-  } else {
+onMounted(async () => {
+  try {
+    await $loadGoogleMaps();
     initAutocomplete();
+  } catch (error) {
+    console.error('Error loading Google Maps:', error);
   }
 });
 
 function initAutocomplete() {
   const options = {
-    types: ["(cities)"],
-    fields: ["address_components", "formatted_address", "geometry", "name"],
+    types: ['(cities)'],
+    fields: ['address_components', 'formatted_address', 'geometry', 'name'],
   };
   autocomplete = new google.maps.places.Autocomplete(
     autocompleteInput.value,
     options
   );
-  autocomplete.addListener("place_changed", onPlaceChanged);
+  autocomplete.addListener('place_changed', onPlaceChanged);
 }
 
 function onPlaceChanged() {
   const place = autocomplete.getPlace();
   if (place.geometry) {
-    emit("update:modelValue", place.formatted_address || place.name);
-    emit("placeSelected", place);
+    emit('update:modelValue', place.formatted_address || place.name);
+    emit('placeSelected', place);
   }
 }
 
 function onInput(event) {
   const value = event.target.value;
-  emit("update:modelValue", value);
+  emit('update:modelValue', value);
   if (!value) {
-    emit("placeSelected", null);
+    emit('placeSelected', null);
   }
 }
 
