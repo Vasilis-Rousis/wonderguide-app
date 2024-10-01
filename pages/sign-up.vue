@@ -1,97 +1,101 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
-  <div
-    class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8"
-  >
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img
-        class="mx-auto h-10 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="Your Company"
-      />
-      <h2
-        class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-      >
-        Create a new account
-      </h2>
-    </div>
-
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="signUp">
+  <div class="min-h-screen flex flex-col">
+    <div
+      class="flex flex-grow items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    >
+      <div class="w-full max-w-md space-y-8">
         <div>
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Email address</label
+          <img
+            class="mx-auto h-12 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
+            alt="Your Company"
+          />
+          <h2
+            class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
           >
-          <div class="mt-2">
-            <input
-              v-model="email"
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required=""
-              class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
+            Create a new account
+          </h2>
         </div>
+        <form class="mt-8 space-y-6" @submit.prevent="signUp">
+          <div class="-space-y-px rounded-md shadow-sm">
+            <div>
+              <label for="email-address" class="sr-only">Email address</label>
+              <input
+                v-model="email"
+                id="email-address"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                placeholder="Email address"
+              />
+            </div>
+            <div>
+              <label for="password" class="sr-only">Password</label>
+              <input
+                v-model="password"
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+                class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                placeholder="Password"
+              />
+            </div>
+          </div>
 
-        <div>
-          <div class="flex items-center justify-between">
-            <label
-              for="password"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Password</label
+          <!-- Display error message if sign-up fails -->
+          <p v-if="signUpError" class="text-red-500 text-sm text-center">
+            {{ signUpError }}
+          </p>
+
+          <div>
+            <button
+              type="submit"
+              class="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out py-3 px-4 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <!-- Heroicon name: user-add -->
+                <svg
+                  class="h-5 w-5 text-blue-500 group-hover:text-blue-400 transition duration-150 ease-in-out"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a5 5 0 00-5 5v1h10v-1a5 5 0 00-5-5zm9-3a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V8z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              Sign up
+            </button>
           </div>
-          <div class="mt-2">
-            <input
-              v-model="password"
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required=""
-              class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        </form>
+        <p class="mt-8 text-center text-sm text-gray-600">
+          Already have an account?
+          <NuxtLink
+            to="/login"
+            class="font-medium text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out"
           >
-            Sign up
-          </button>
-        </div>
-      </form>
-
-      <p class="mt-10 text-center text-sm text-gray-500">
-        Already a member?
-        <nuxt-link
-          to="/login"
-          class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-          >Sign in instead!</nuxt-link
-        >
-      </p>
+            Sign in instead!
+          </NuxtLink>
+        </p>
+      </div>
     </div>
+    <Footer />
   </div>
-  <Footer class="absolute bottom-0" />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import Footer from "~/components/Footer.vue"
+import Navbar from "~/components/Navbar.vue";
+import Footer from "~/components/Footer.vue";
 
 // Reactive state
 const email = ref("");
@@ -109,7 +113,7 @@ const signUp = async () => {
       email: email.value,
       password: password.value,
       options: {
-        emailRedirectTo: "/",
+        emailRedirectTo: window.location.origin,
       },
     });
 

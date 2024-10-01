@@ -1,95 +1,120 @@
 <template>
-  <div
-    class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8"
-  >
-    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img
-        class="mx-auto h-10 w-auto"
-        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-        alt="Your Company"
-      />
-      <h2
-        class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"
-      >
-        Sign in to your account
-      </h2>
-    </div>
-
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-6" @submit.prevent="signIn">
+  <div class="min-h-screen flex flex-col">
+    <div
+      class="flex flex-grow items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+    >
+      <div class="w-full max-w-md space-y-8">
         <div>
-          <label
-            for="email"
-            class="block text-sm font-medium leading-6 text-gray-900"
-            >Email address</label
+          <img
+            class="mx-auto h-12 w-auto"
+            src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
+            alt="Your Company"
+          />
+          <h2
+            class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
           >
-          <div class="mt-2">
-            <input
-              v-model="email"
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required=""
-              class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
+            Sign in to your account
+          </h2>
         </div>
-
-        <div>
-          <div class="flex items-center justify-between">
-            <label
-              for="password"
-              class="block text-sm font-medium leading-6 text-gray-900"
-              >Password</label
-            >
-            <div class="text-sm">
-              <a
-                href="#"
-                class="font-semibold text-indigo-600 hover:text-indigo-500"
-                >Forgot password?</a
-              >
+        <form class="mt-8 space-y-6" @submit.prevent="signIn">
+          <div class="-space-y-px rounded-md shadow-sm">
+            <div>
+              <label for="email-address" class="sr-only">Email address</label>
+              <input
+                v-model="email"
+                id="email-address"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                placeholder="Email address"
+              />
+            </div>
+            <div>
+              <label for="password" class="sr-only">Password</label>
+              <input
+                v-model="password"
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+                class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                placeholder="Password"
+              />
             </div>
           </div>
-          <div class="mt-2">
-            <input
-              v-model="password"
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required=""
-              class="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
+
+          <!-- Display error message if login fails -->
+          <p v-if="signInError" class="text-red-500 text-sm text-center">
+            {{ signInError }}
+          </p>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <input
+                id="remember-me"
+                name="remember-me"
+                type="checkbox"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                Remember me
+              </label>
+            </div>
+
+            <div class="text-sm">
+              <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                Forgot your password?
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <button
-            type="submit"
-            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          <div>
+            <button
+              type="submit"
+              class="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 hover:bg-blue-700 transition duration-150 ease-in-out py-3 px-4 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <!-- Heroicon name: lock-closed -->
+                <svg
+                  class="h-5 w-5 text-blue-500 group-hover:text-blue-400 transition duration-150 ease-in-out"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 2a4 4 0 00-4 4v2H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-1V6a4 4 0 00-4-4zM8 6a2 2 0 114 0v2H8V6z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              Sign in
+            </button>
+          </div>
+        </form>
+        <p class="mt-8 text-center text-sm text-gray-600">
+          Not a member?
+          <NuxtLink
+            to="/sign-up"
+            class="font-medium text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out"
           >
-            Sign in
-          </button>
-        </div>
-      </form>
-
-      <p class="mt-10 text-center text-sm text-gray-500">
-        Not a member?
-        <nuxt-link
-          to="/sign-up"
-          class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-          >Sign up today!</nuxt-link
-        >
-      </p>
+            Sign up today!
+          </NuxtLink>
+        </p>
+      </div>
     </div>
+    <Footer />
   </div>
-  <Footer class="absolute bottom-0" />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
 
 const email = ref("");
@@ -98,7 +123,7 @@ const signInError = ref(null);
 
 const router = useRouter();
 
-// Use the Supabase client from the utility file
+// Use the Supabase client
 const supabase = useSupabaseClient();
 
 const signIn = async () => {
