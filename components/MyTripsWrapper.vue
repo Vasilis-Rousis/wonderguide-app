@@ -10,7 +10,7 @@
             <div
               v-for="n in 5"
               :key="n"
-              class="bg-white p-6 rounded-lg shadow-md animate-pulse"
+              class="bg-white p-6 rounded-lg shadow-md mb-6 animate-pulse"
             >
               <div class="h-6 bg-gray-200 rounded mb-4"></div>
               <div class="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
@@ -25,6 +25,7 @@
                 :key="index"
                 :trip="trip"
                 class="mb-6 hover:shadow-lg transition-shadow"
+                @deleted="getUserTrips"
               />
             </div>
             <div v-else class="text-center text-gray-500 mt-8">

@@ -6,7 +6,7 @@
       :placeholder="placeholder"
       :value="modelValue"
       @input="onInput"
-      class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+      class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:outline-none focus:ring-2"
     />
   </div>
 </template>

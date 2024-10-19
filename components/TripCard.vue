@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+  <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow relative">
     <div class="flex justify-between items-center">
       <div class="flex flex-col justify-between gap-4">
         <h1 class="font-semibold text-2xl text-gray-800">
@@ -7,20 +7,28 @@
         </h1>
         <p class="text-xl text-gray-600 mr-4">Duration: {{ trip.days }} days</p>
       </div>
-      <button
-        @click="toggleCollapse"
-        class="bg-gray-100 rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-      >
-        <ChevronDownIcon
-          class="w-6 h-6 transform transition-transform duration-300"
-          :class="{ 'rotate-180': !isCollapsed }"
-        />
-      </button>
+      <div class="flex items-center gap-4">
+        <button
+          @click="toggleCollapse"
+          class="bg-gray-100 rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+        >
+          <ChevronDownIcon
+            class="w-6 h-6 transform transition-transform duration-300"
+            :class="{ 'rotate-180': !isCollapsed }"
+          />
+        </button>
+        <button
+          @click="openDeleteModal"
+          class="bg-red-100 text-red-600 rounded-full p-2 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-150 ease-in-out"
+        >
+          <TrashIcon class="w-6 h-6" />
+        </button>
+      </div>
     </div>
+
     <!-- Content reveal transition -->
     <transition name="expand">
       <div v-if="!isCollapsed" class="mt-4 overflow-hidden">
-        <!-- Display trip details here -->
         <div v-for="day in parsedTrip" :key="day.dayTitle" class="mb-6">
           <h4 class="text-lg text-gray-700 font-semibold mb-2">{{ day.dayTitle }}</h4>
           <div v-for="period in day.periods" :key="period.periodTitle" class="ml-2 mb-4">
@@ -32,7 +40,24 @@
                 <span v-else-if="period.periodTitle === 'Evening'">🌙</span>
               </span>
             </div>
-            <p v-for="(activity, index) in period.activities" :key="index" class="text-gray-700">{{ activity }}</p>
+            <p v-for="(activity, index) in period.activities" :key="index" class="text-gray-700 ml-6">{{ activity }}</p>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Delete Confirmation Modal -->
+    <transition name="modal-fade">
+      <div v-if="showDeleteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg max-w-sm w-full transform transition-transform duration-300 ease-in-out scale-95">
+          <h2 class="text-lg font-semibold mb-4 text-gray-800">Are you sure you want to delete this trip?</h2>
+          <div class="flex justify-end gap-4">
+            <button @click="cancelDelete" class="bg-gray-100 text-gray-800 px-4 py-2 rounded hover:bg-gray-200 transition duration-150 ease-in-out">
+              Cancel
+            </button>
+            <button @click="confirmDelete" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-150 ease-in-out">
+              Yes, Delete
+            </button>
           </div>
         </div>
       </div>
@@ -42,8 +67,9 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { ChevronDownIcon } from "@heroicons/vue/24/solid";
+import { ChevronDownIcon, TrashIcon } from "@heroicons/vue/24/solid";
 
+// Define properties passed to the component
 const props = defineProps({
   trip: {
     type: Object,
@@ -51,10 +77,41 @@ const props = defineProps({
   },
 });
 
+// Define events emitted by the component
+const emit = defineEmits(['deleted']);
+
+const supabase = useSupabaseClient();
 const isCollapsed = ref(true);
+const showDeleteModal = ref(false);
 
 const toggleCollapse = () => {
   isCollapsed.value = !isCollapsed.value;
+};
+
+const openDeleteModal = () => {
+  showDeleteModal.value = true;
+};
+
+const cancelDelete = () => {
+  showDeleteModal.value = false;
+};
+
+const confirmDelete = async () => {
+  try {
+    const { error } = await supabase
+      .from("trips")
+      .delete()
+      .eq("id", props.trip.id);
+    if (error) {
+      throw error;
+    }
+    // Emit an event to notify parent component to refresh the list
+    emit('deleted');
+  } catch (e) {
+    console.error("Error deleting trip", e);
+  } finally {
+    showDeleteModal.value = false;
+  }
 };
 
 // Parse the trip data into a structured format
@@ -124,6 +181,22 @@ const parsedTrip = computed(() => {
 .expand-enter-to,
 .expand-leave-from {
   max-height: 1000px; /* Adjusted to accommodate larger content */
+  opacity: 1;
+}
+
+/* Modal fade transition */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-fade-enter-to,
+.modal-fade-leave-from {
   opacity: 1;
 }
 </style>

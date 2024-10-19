@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen flex flex-col bg-gray-50">
     <Navbar />
-    <div class="flex-grow flex flex-col gap-12 pt-28">
+    <div class="flex-grow flex flex-col gap-4 pt-28">
       <InputForm
         @travelPlan="setTravelPlan"
         @loading="setLoading"

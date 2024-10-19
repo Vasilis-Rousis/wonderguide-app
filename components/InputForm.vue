@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center bg-gray-50">
+  <div class="flex items-center justify-center bg-gray-50 mb-8">
     <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md mx-auto">
       <h1 class="text-3xl font-semibold text-gray-800 mb-6 text-center">
         Plan Your Trip

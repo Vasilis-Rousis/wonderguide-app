@@ -6,8 +6,8 @@
       <div class="w-full max-w-md space-y-8">
         <div>
           <img
-            class="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
+            class="mx-auto h-32 w-auto"
+            src="/images/Wonderguide-logo.png"
             alt="Your Company"
           />
           <h2

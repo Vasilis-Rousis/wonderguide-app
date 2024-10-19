@@ -10,8 +10,8 @@
         <div class="flex items-center">
           <NuxtLink to="/">
             <img
-              class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
+              class="h-16 w-auto"
+              src="/images/Wonderguide-logo.png"
               alt="Your Company"
             />
           </NuxtLink>

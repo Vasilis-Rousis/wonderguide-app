@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center w-full mb-4">
+  <div class="flex justify-center w-full mb-8">
     <div class="flex flex-wrap justify-center gap-6">
       <button
         :class="{
@@ -8,7 +8,7 @@
           'bg-green-600': buttonsVisibilityStore.isButtonSaved,
         }"
         :disabled="isSaving || buttonsVisibilityStore.isButtonSaved"
-        class="text-white font-semibold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+        class="text-white w-40 h-12 font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
         @click="saveTrip"
       >
         <span class="transition duration-150 ease-in-out">
@@ -17,11 +17,11 @@
       </button>
       <button
         :disabled="isGenerating"
-        class="bg-white border border-blue-600 hover:bg-blue-50 text-blue-600 font-semibold py-3 px-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+        class="bg-white w-40 h-12 border border-blue-600 hover:bg-blue-50 text-blue-600 font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
         @click="getTravelPlan"
       >
         <span class="transition duration-150 ease-in-out">
-          {{ isGenerating ? "Generating..." : "Generate Again" }}
+          {{ isGenerating ? "Generating..." : "Generate Plan" }}
         </span>
       </button>
     </div>
