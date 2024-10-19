@@ -2,26 +2,33 @@
   <div class="flex justify-center w-full mb-8">
     <div class="flex flex-wrap justify-center gap-6">
       <button
-        :class="{
-          'bg-blue-600 hover:bg-blue-700':
-            !buttonsVisibilityStore.isButtonSaved,
-          'bg-green-600': buttonsVisibilityStore.isButtonSaved,
-        }"
+        :class="[
+          buttonsVisibilityStore.isButtonSaved ? 'bg-green-600' : 'bg-blue-600 hover:bg-blue-700',
+          'text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out w-40 h-12 flex items-center justify-center'
+        ]"
         :disabled="isSaving || buttonsVisibilityStore.isButtonSaved"
-        class="text-white w-40 h-12 font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
         @click="saveTrip"
       >
-        <span class="transition duration-150 ease-in-out">
-          {{ buttonsVisibilityStore.isButtonSaved ? "Saved!" : "Save Trip" }}
-        </span>
+        <transition name="fade" mode="out-in">
+          <div :key="buttonsVisibilityStore.isButtonSaved">
+            <template v-if="buttonsVisibilityStore.isButtonSaved">
+              <!-- Icon when saved -->
+              <CheckCircleIcon class="w-6 h-6 text-white" title="Trip Saved" />
+            </template>
+            <template v-else>
+              <!-- Text when not saved -->
+              <span>Save Trip</span>
+            </template>
+          </div>
+        </transition>
       </button>
       <button
         :disabled="isGenerating"
-        class="bg-white w-40 h-12 border border-blue-600 hover:bg-blue-50 text-blue-600 font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out"
+        class="bg-white border border-blue-600 hover:bg-blue-50 text-blue-600 font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out w-40 h-12 flex items-center justify-center"
         @click="getTravelPlan"
       >
         <span class="transition duration-150 ease-in-out">
-          {{ isGenerating ? "Generating..." : "Generate Plan" }}
+          {{ isGenerating ? "Generating..." : "Generate Again" }}
         </span>
       </button>
     </div>
@@ -31,6 +38,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { CheckCircleIcon } from '@heroicons/vue/24/solid';
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
@@ -110,3 +118,12 @@ const getTravelPlan = async () => {
   }
 };
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>

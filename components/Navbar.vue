@@ -4,8 +4,8 @@
     class="bg-white bg-opacity-80 backdrop-filter backdrop-blur-lg fixed w-full z-50 shadow-sm"
     v-slot="{ open }"
   >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
+    <div class="mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center h-16">
         <!-- Left section: Logo -->
         <div class="flex items-center">
           <NuxtLink to="/">
@@ -17,7 +17,7 @@
           </NuxtLink>
         </div>
         <!-- Center section: Navigation Links -->
-        <div class="hidden sm:flex sm:space-x-8">
+        <div class="flex-1 flex justify-center hidden sm:flex sm:space-x-8">
           <NuxtLink
             v-for="item in navigation"
             :key="item.name"
@@ -34,7 +34,7 @@
           </NuxtLink>
         </div>
         <!-- Right section: Profile dropdown -->
-        <div class="flex items-center">
+        <div class="flex items-center justify-end">
           <!-- Mobile menu button -->
           <div class="sm:hidden">
             <DisclosureButton

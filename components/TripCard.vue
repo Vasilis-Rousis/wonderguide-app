@@ -9,19 +9,19 @@
       </div>
       <div class="flex items-center gap-4">
         <button
+          @click="openDeleteModal"
+          class="bg-red-100 text-red-600 rounded-full p-2 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-150 ease-in-out"
+        >
+          <TrashIcon class="w-6 h-6" />
+        </button>
+                <button
           @click="toggleCollapse"
-          class="bg-gray-100 rounded-full p-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out"
+          class="bg-gray-100 rounded-full p-2 hover:bg-gray-200 focus:outline-none transition duration-150 ease-in-out"
         >
           <ChevronDownIcon
             class="w-6 h-6 transform transition-transform duration-300"
             :class="{ 'rotate-180': !isCollapsed }"
           />
-        </button>
-        <button
-          @click="openDeleteModal"
-          class="bg-red-100 text-red-600 rounded-full p-2 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-400 transition duration-150 ease-in-out"
-        >
-          <TrashIcon class="w-6 h-6" />
         </button>
       </div>
     </div>
