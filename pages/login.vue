@@ -114,8 +114,15 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
+
+useHead({
+  title: 'Welcome',
+  meta: [
+    { name: 'description', content: 'WonderGuide sign-in page' },
+    { property: 'og:image', content: '/images/Wonderguide-logo.png' }, //needs to be hosted on a cdn or the whole app
+  ],
+});
 
 const email = ref("");
 const password = ref("");

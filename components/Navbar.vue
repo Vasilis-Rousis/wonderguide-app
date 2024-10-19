@@ -17,7 +17,7 @@
           </NuxtLink>
         </div>
         <!-- Center section: Navigation Links -->
-        <div class="flex-1 flex justify-center hidden sm:flex sm:space-x-8">
+        <div class="flex-1 flex justify-center sm:flex sm:space-x-8">
           <NuxtLink
             v-for="item in navigation"
             :key="item.name"

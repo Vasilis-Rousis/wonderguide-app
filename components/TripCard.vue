@@ -49,9 +49,9 @@
     <!-- Delete Confirmation Modal -->
     <transition name="modal-fade">
       <div v-if="showDeleteModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white p-6 rounded-lg max-w-sm w-full transform transition-transform duration-300 ease-in-out scale-95">
-          <h2 class="text-lg font-semibold mb-4 text-gray-800">Are you sure you want to delete this trip?</h2>
-          <div class="flex justify-end gap-4">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full transform transition-transform duration-300 ease-in-out scale-95">
+          <h2 class="text-lg text-center font-semibold mb-4 text-gray-800">Are you sure you want to delete this trip?</h2>
+          <div class="flex gap-4 justify-center	">
             <button @click="cancelDelete" class="bg-gray-100 text-gray-800 px-4 py-2 rounded hover:bg-gray-200 transition duration-150 ease-in-out">
               Cancel
             </button>

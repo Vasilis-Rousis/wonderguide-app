@@ -14,6 +14,15 @@ import Navbar from "~/components/Navbar.vue";
 import MyTripsWrapper from "~/components/MyTripsWrapper.vue";
 import Footer from "~/components/Footer.vue";
 
+useHead({
+  title: 'My Trips',
+  meta: [
+    { name: 'description', content: 'WonderGuide my trips page' },
+    { property: 'og:image', content: '/images/Wonderguide-logo.png' }, //needs to be hosted on a cdn or the whole app
+  ],
+});
+
+
 definePageMeta({
   middleware: ["auth"],
 });

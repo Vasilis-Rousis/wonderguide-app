@@ -26,6 +26,14 @@ import Navbar from "~/components/Navbar.vue";
 import Footer from "~/components/Footer.vue";
 import FunctionalButtonsContainer from "~/components/FunctionalButtonsContainer.vue";
 
+useHead({
+  title: 'Dashboard',
+  meta: [
+    { name: 'description', content: 'WonderGuide Dashboard page' },
+    { property: 'og:image', content: '/images/Wonderguide-logo.png' }, //needs to be hosted on a cdn or the whole app
+  ],
+});
+
 definePageMeta({
   middleware: ["auth"],
 });
